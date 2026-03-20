@@ -1,0 +1,42 @@
+ {
+    "ambiguity": {
+        "A": {"ambiguity": -1.0},
+        "B": {"ambiguity": 0.3},
+        "C": {"ambiguity": -0.7},
+        "D": {"ambiguity": 1.0}
+    },
+    "execution_vs_ideation": {
+        "A": {"execution": 1.0},
+        "B": {"execution": -1.0}
+    },
+    "frustration": {
+        "A": {"frustration": 1.0},
+        "B": {"frustration": 0.6},
+        "C": {"frustration": -0.8},
+        "D": {"frustration": -0.3}
+    },
+    "structure": {
+        "A": {"structure": 1.0},
+        "B": {"structure": -1.0}
+    },
+    "analytical": {
+        "A": {"analytical": -1.0},
+        "B": {"analytical": 1.0}
+    },
+    "execution_behavior": {
+        "A": {"execution": -1.0},
+        "B": {"execution": 0.5},
+        "C": {"execution": -0.8},
+        "D": {"execution": 1.0}
+    },
+    "trial": {
+        "A": {"trial": 1.0},
+        "B": {"trial": -1.0}
+    },
+    "interaction": {
+        "A": {"ambiguity": 0.5, "execution": 0.3},
+        "B": {"ambiguity": -0.5},
+        "C": {"analytical": 0.5},
+        "D": {"trial": 0.7}
+    }
+}
