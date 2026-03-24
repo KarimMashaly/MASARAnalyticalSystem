@@ -1,4 +1,4 @@
-from traits import build_traits, normalize_traits, add_interactions
+from traits import build_traits, normalize_traits
 from scoring import score_tracks
 from confidence import compute_confidence
 from explanation import explain
@@ -14,17 +14,17 @@ def read_feature_map(file_path=r"Data//feature_map.json"):
 def run_pipeline(answers):
     raw = build_traits(answers, feature_map=read_feature_map())
     traits = normalize_traits(raw)
-    traits = add_interactions(traits)
 
     scores = score_tracks(traits)
-    track = max(scores, key=scores.get)
+    best_track = max(scores, key=scores.get)
     confidence = compute_confidence(scores)
-    explanation = explain(traits, track)
+    explanation = explain(traits, best_track)
 
     return {
         "traits": traits,
         "scores": scores,
-        "track": track,
+        "track": best_track,
         "confidence": confidence,
         "explanation": explanation
     }
+
