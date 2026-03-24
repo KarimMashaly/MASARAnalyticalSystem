@@ -27,9 +27,3 @@ def normalize_traits(raw):
         normalized[t] = round(s, 3)
     return normalized
 
-
-def add_interactions(traits):
-    traits["ai_signal"] = traits["analytical"] * traits["ambiguity"]
-    traits["backend_signal"] = traits["analytical"] * traits["structure"]
-    traits["frontend_signal"] = traits["execution"] * traits["trial"]
-    return traits
