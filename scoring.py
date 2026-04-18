@@ -1,50 +1,67 @@
-# from track_profiles import track_profiles
 import json
 
-def read_track_profiles(file_path=r"E:\\Documents\\Masar\\Analytical System\\MASAR_Analytical_System\\Data\\tracks_profile.json"):
+
+def read_track_profiles(file_path=r"Data/tracks_profile.json"):
     with open(file_path, 'r', encoding='utf-8') as f:
         return json.load(f)
-    
-track_profiles = read_track_profiles()
-    
+
+
+TRACK_DATA = read_track_profiles()
+TRACK_PROFILES = TRACK_DATA["tracks"]
+
+
+# ----------------------------
+# 1) Similarity (محسن)
+# ----------------------------
 def range_similarity(x, min_val, max_val):
     if min_val <= x <= max_val:
         return 1.0
 
-    # penalty per trait 
+    # normalize distance relative to range
+    range_size = max_val - min_val + 1e-6
+
     if x < min_val:
-        return max(0, 1 - (min_val - x) * 3)
+        distance = (min_val - x) / range_size
+    else:
+        distance = (x - max_val) / range_size
 
-    if x > max_val:
-        return max(0, 1 - (x - max_val) * 3)
-    
+    return max(0, 1 - distance)
 
-def compute_base_score(user_traits, track_data):
+
+# ----------------------------
+# 2) Base Score
+# ----------------------------
+def compute_base_score(user, track_data):
     score = 0
 
-    for trait, config in track_data["traits"].items():
-        min_v, max_v, weight = config
-
-        sim = range_similarity(user_traits[trait], min_v, max_v)
-
+    for trait, (min_v, max_v, weight) in track_data["traits"].items():
+        sim = range_similarity(user[trait], min_v, max_v)
         score += weight * sim
 
     return score
 
+
+# ----------------------------
+# 3) Penalty (Dynamic)
+# ----------------------------
 def compute_penalty(user, track_data):
     penalty = 0
 
     for rule in track_data.get("penalty_rules", []):
         trait = rule["trait"]
         threshold = rule["threshold"]
-        p = rule["penalty"]
+        factor = rule["factor"]
 
         if user[trait] < threshold:
             gap = threshold - user[trait]
-            penalty += p * (gap ** 2)
+            penalty += factor * (gap ** 2)
 
     return penalty
 
+
+# ----------------------------
+# 4) Interactions (FIXED)
+# ----------------------------
 def compute_interactions(user, track_data):
     bonus = 0
 
@@ -52,23 +69,40 @@ def compute_interactions(user, track_data):
         traits = rule["traits"]
         thresholds = rule["thresholds"]
 
-        for t, th in zip(traits, thresholds):
-            if user[t] < th:
-                return 0
-            else:
-                bonus += rule["bonus"]
+        if all(user[t] >= th for t, th in zip(traits, thresholds)):
+            bonus += rule["bonus"]
 
     return bonus
 
-def score_tracks(user):
-    scores = {}
 
-    for track, data in track_profiles.items():
+# ----------------------------
+# 5) Final Scoring + Confidence
+# ----------------------------
+def score_tracks(user):
+    raw_scores = {}
+
+    for track, data in TRACK_PROFILES.items():
         base = compute_base_score(user, data)
         penalty = compute_penalty(user, data)
         bonus = compute_interactions(user, data)
 
         final_score = base - penalty + bonus
-        scores[track] = round(final_score, 4)
+        raw_scores[track] = final_score
 
-    return scores
+    # normalization
+    total = sum(raw_scores.values()) + 1e-6
+    normalized_scores = {
+        k: round(v / total, 4) for k, v in raw_scores.items()
+    }
+
+    # confidence
+    sorted_scores = sorted(raw_scores.values(), reverse=True)
+    top = sorted_scores[0]
+    second = sorted_scores[1] if len(sorted_scores) > 1 else 0
+
+    confidence = (top - second) / (top + 1e-6)
+
+    return {
+        "scores": normalized_scores,
+        "confidence": round(confidence, 4)
+    }
