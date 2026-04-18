@@ -1,8 +1,112 @@
 
 from pipeline import run_pipeline
-import json 
 import arabic_reshaper
 from bidi.algorithm import get_display
+
+QUESTIONS = [
+  {
+    "id": "ambiguity",
+    "text": "لما تدخل على موضوع جديد ومش واضح...",
+    "options": {
+      "A": "أستنى لحد ما الصورة تبقى واضحة",
+      "B": "أحاول أفهمه تدريجي حتى لو مش كامل",
+      "C": "أحط افتراضات وأبدأ أشتغل",
+      "D": "أسيبه مؤقتًا وأرجع له بعدين"
+    }
+  },
+  {
+    "id": "execution_vs_ideation",
+    "text": "فكرت تعمل حاجة جديدة في وقت فراغك...",
+    "options": {
+      "A": "أبدأ أنفذ فورًا",
+      "B": "أفكر في أفكار مختلفة",
+      "C": "أشوف أفكار ناس تانية وأبني عليها",
+      "D": "أرتب الفكرة وأحدد خطوات التنفيذ"
+    }
+  },
+  {
+    "id": "frustration",
+    "text": "كل مرة بتحل المشكلة وتطلع غلط، أول حاجة تعملها...",
+    "options": {
+      "A": "أحلل الخطأ في نفس الطريقة",
+      "B": "أغير الطريقة بالكامل",
+      "C": "أسيبها مؤقتًا",
+      "D": "أطلب مساعدة"
+    }
+  },
+  {
+    "id": "structure",
+    "text": "لما بتذاكر موضوع جديد...",
+    "options": {
+      "A": "أمشي خطوة خطوة بالترتيب",
+      "B": "أتنقل بين الأجزاء حسب الحاجة",
+      "C": "أركز على جزء واحد لحد ما أفهمه كويس",
+      "D": "أجرب بشكل عشوائي"
+    }
+  },
+  {
+    "id": "analytical",
+    "text": "قدامك مشكلة كبيرة...",
+    "options": {
+      "A": "أفهم الصورة العامة الأول",
+      "B": "أقسمها لأجزاء صغيرة",
+      "C": "أجرب حلول مباشرة",
+      "D": "أشوف مثال مشابه"
+    }
+  },
+  {
+    "id": "execution_behavior",
+    "text": "عندك task مش محدد قوي...",
+    "options": {
+      "A": "أستنى تفاصيل أكتر",
+      "B": "أبدأ بحاجة بسيطة وأعدل",
+      "C": "أأجل لحد ما يبقى أوضح",
+      "D": "أشتغل على فهمي الحالي وأكمل"
+    }
+  },
+  {
+    "id": "uncertainty",
+    "text": "مش متأكد إن الحل صح...",
+    "options": {
+      "A": "أكمل وأعدل لو احتاج",
+      "B": "أوقف لحد ما أتأكد",
+      "C": "أراجع تحليلي",
+      "D": "أجرب طريقة تانية"
+    }
+  },
+  {
+    "id": "ideation",
+    "text": "لما تيجي تفكر في مشروع جديد...",
+    "options": {
+      "A": "أتخيل شكله وتجربة استخدامه",
+      "B": "أفكر في الفكرة وإزاي تكون مختلفة",
+      "C": "أركز على أسرع طريقة لتنفيذه",
+      "D": "أفكر إزاي أخليه شغال بكفاءة"
+    }
+  },
+  {
+    "id": "creativity",
+    "text": "لما تشتغل على حاجة ليها حل معروف...",
+    "options": {
+      "A": "أعملها زي ما هي عشان أوفر وقت",
+      "B": "أعدل عليها لو في فايدة",
+      "C": "ألتزم بالحل لأنه مضمون",
+      "D": "أجرب أفكار مختلفة حتى لو فيها مخاطرة"
+    }
+  },
+  {
+    "id": "open_ended",
+    "text": "لما حد يديك فكرة عامة...",
+    "options": {
+      "A": "أطورها وأضيف أفكار جديدة",
+      "B": "أجربها بشكل عملي",
+      "C": "أبحث عنها وأفهمها كويس",
+      "D": "أسأل عن تفاصيل أكتر"
+    }
+  }
+]
+
+
 
 def arabic_print(text, end="\n"):
     reshaped_text = arabic_reshaper.reshape(text)
@@ -10,14 +114,8 @@ def arabic_print(text, end="\n"):
     print(bidi_text, end=end)
 
 
-def read_questions(file_path=r"E:\\Documents\\Masar\\Analytical System\\MASAR_Analytical_System\\Data\\Questions.json"):
-            with open(file_path, 'r', encoding='utf-8') as f:
-             return json.load(f)
-    
-questions = read_questions()
 
-
-def ask_questions(questions=questions):
+def ask_questions(questions=QUESTIONS):
     answers = {}
 
     for q in questions:
