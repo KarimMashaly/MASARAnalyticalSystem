@@ -1,89 +1,106 @@
 {
-  "AI": {
-    "traits": {
-      "analytical": [0.8, 1.0, 0.3],
-      "ambiguity": [0.7, 1.0, 0.25],
-      "frustration": [0.6, 1.0, 0.15],
-      "trial": [0.5, 0.85, 0.1],
-      "structure": [0.4, 0.75, 0.1],
-      "execution": [0.4, 0.75, 0.1]
-    },
-    "penalty_rules": [
-      {
-        "trait": "ambiguity",
-        "threshold": 0.4,
-        "penalty": 0.5
-      },
-      {
-        "trait": "analytical",
-        "threshold": 0.6,
-        "penalty": 0.4
-      }
-    ],
-    "interaction_rules": [
-      {
-        "traits": ["analytical", "ambiguity"],
-        "thresholds": [0.8, 0.7],
-        "bonus": 0.15
-      }
-    ]
+  "traits_dictionary": {
+    "analytical": 0.0,
+    "structure": 0.0,
+    "execution": 0.0,
+    "ambiguity": 0.0,
+    "trial": 0.0,
+    "frustration": 0.0,
+    "ideation": 0.0
   },
-  "Backend": {
-    "traits": {
-      "analytical": [0.7, 1.0, 0.25],
-      "structure": [0.7, 1.0, 0.2],
-      "execution": [0.6, 1.0, 0.2],
-      "frustration": [0.6, 1.0, 0.1],
-      "ambiguity": [0.3, 0.6, 0.1],
-      "trial": [0.4, 0.7, 0.05]
-    },
-    "penalty_rules": [
-      {
-        "trait": "structure",
-        "threshold": 0.5,
-        "penalty": 0.5
+
+  "tracks": {
+    "AI": {
+      "traits": {
+        "analytical": [0.75, 1.0, 0.25],
+        "ambiguity": [0.65, 1.0, 0.22],
+        "frustration": [0.65, 1.0, 0.15],
+        "trial": [0.55, 0.9, 0.13],
+        "structure": [0.4, 0.75, 0.10],
+        "execution": [0.4, 0.75, 0.08],
+        "ideation": [0.5, 0.85, 0.07]
       },
-      {
-        "trait": "execution",
-        "threshold": 0.5,
-        "penalty": 0.3
-      }
-    ],
-    "interaction_rules": [
-      {
-        "traits": ["analytical", "structure"],
-        "thresholds": [0.8, 0.8],
-        "bonus": 0.15
-      }
-    ]
-  },
-  "Frontend": {
-    "traits": {
-      "execution": [0.7, 1.0, 0.25],
-      "trial": [0.6, 1.0, 0.2],
-      "ambiguity": [0.5, 0.8, 0.15],
-      "analytical": [0.4, 0.7, 0.1],
-      "structure": [0.4, 0.7, 0.1],
-      "frustration": [0.5, 0.8, 0.05]
+      "penalty_rules": [
+        {
+          "trait": "ambiguity",
+          "threshold": 0.5,
+          "factor": 1.0
+        },
+        {
+          "trait": "analytical",
+          "threshold": 0.6,
+          "factor": 0.8
+        }
+      ],
+      "interaction_rules": [
+        {
+          "traits": ["analytical", "ambiguity"],
+          "thresholds": [0.75, 0.7],
+          "bonus": 0.2
+        }
+      ]
     },
-    "penalty_rules": [
-      {
-        "trait": "execution",
-        "threshold": 0.5,
-        "penalty": 0.4
+
+    "Backend": {
+      "traits": {
+        "analytical": [0.7, 1.0, 0.25],
+        "structure": [0.7, 1.0, 0.22],
+        "execution": [0.65, 1.0, 0.20],
+        "frustration": [0.65, 1.0, 0.12],
+        "ambiguity": [0.3, 0.6, 0.10],
+        "trial": [0.4, 0.7, 0.06],
+        "ideation": [0.4, 0.7, 0.05]
       },
-      {
-        "trait": "trial",
-        "threshold": 0.5,
-        "penalty": 0.4
-      }
-    ],
-    "interaction_rules": [
-      {
-        "traits": ["execution", "trial"],
-        "thresholds": [0.7, 0.7],
-        "bonus": 0.15
-      }
-    ]
+      "penalty_rules": [
+        {
+          "trait": "structure",
+          "threshold": 0.6,
+          "factor": 1.0
+        },
+        {
+          "trait": "execution",
+          "threshold": 0.6,
+          "factor": 0.8
+        }
+      ],
+      "interaction_rules": [
+        {
+          "traits": ["analytical", "structure"],
+          "thresholds": [0.75, 0.75],
+          "bonus": 0.18
+        }
+      ]
+    },
+
+    "Frontend": {
+      "traits": {
+        "execution": [0.7, 1.0, 0.22],
+        "trial": [0.65, 1.0, 0.20],
+        "ideation": [0.65, 1.0, 0.20],
+        "ambiguity": [0.55, 0.85, 0.12],
+        "structure": [0.4, 0.7, 0.10],
+        "frustration": [0.5, 0.8, 0.08],
+        "analytical": [0.4, 0.7, 0.08]
+      },
+      "penalty_rules": [
+        {
+          "trait": "execution",
+          "threshold": 0.6,
+          "factor": 0.8
+        },
+        {
+          "trait": "trial",
+          "threshold": 0.6,
+          "factor": 0.8
+        }
+      ],
+      "interaction_rules": [
+        {
+          "traits": ["ideation", "trial"],
+          "thresholds": [0.7, 0.7],
+          "bonus": 0.2
+        }
+      ]
+    }
   }
 }
