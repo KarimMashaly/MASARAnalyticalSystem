@@ -1,5 +1,5 @@
 {
-  "ambiguity": {
+  "1" : {
     "A": {
       "ambiguity": -0.35,
       "structure": 0.25,
@@ -17,7 +17,7 @@
     }
   },
 
-  "execution_vs_ideation": {
+  "2": {
     "A": {
       "execution": 0.35,
       "trial": 0.15,
@@ -40,7 +40,7 @@
     }
   },
 
-  "frustration": {
+  "3": {
     "A": {
       "analytical": 0.25,
       "frustration": 0.25,
@@ -62,7 +62,7 @@
     }
   },
 
-  "structure": {
+  "4": {
     "A": {
       "structure": 0.4,
       "analytical": 0.1,
@@ -84,7 +84,7 @@
     }
   },
 
-  "analytical": {
+  "5": {
     "A": {
       "analytical": 0.15,
       "ideation": 0.15
@@ -105,7 +105,7 @@
     }
   },
 
-  "execution_behavior": {
+  "6": {
     "A": {
       "execution": -0.35,
       "ambiguity": -0.15
@@ -125,7 +125,7 @@
     }
   },
 
-  "uncertainty": {
+  "7": {
     "A": {
       "execution": 0.25,
       "ambiguity": 0.2
@@ -144,7 +144,7 @@
     }
   },
 
-  "ideation": {
+  "8": {
     "A": {
       "ideation": 0.25,
       "execution": 0.05
@@ -163,7 +163,7 @@
     }
   },
 
-  "creativity": {
+  "9": {
     "A": {
       "execution": 0.25,
       "structure": 0.15,
@@ -184,7 +184,7 @@
     }
   },
 
-  "open_ended": {
+  "10": {
     "A": {
       "ideation": 0.4,
       "trial": 0.1
