@@ -1,42 +1,205 @@
- {
-    "ambiguity": {
-        "A": {"ambiguity": -1.0},
-        "B": {"ambiguity": 0.3},
-        "C": {"ambiguity": -0.7},
-        "D": {"ambiguity": 1.0}
+{
+  "1" : {
+    "A": {
+      "ambiguity": -0.35,
+      "structure": 0.25,
+      "execution": -0.1
     },
-    "execution_vs_ideation": {
-        "A": {"execution": 1.0},
-        "B": {"execution": -1.0}
+    "B": {
+      "ambiguity": 0.4,
+      "execution": 0.25,
+      "trial": 0.15
     },
-    "frustration": {
-        "A": {"frustration": 1.0},
-        "B": {"frustration": 0.6},
-        "C": {"frustration": -0.8},
-        "D": {"frustration": -0.3}
-    },
-    "structure": {
-        "A": {"structure": 1.0},
-        "B": {"structure": -1.0}
-    },
-    "analytical": {
-        "A": {"analytical": -1.0},
-        "B": {"analytical": 1.0}
-    },
-    "execution_behavior": {
-        "A": {"execution": -1.0},
-        "B": {"execution": 0.5},
-        "C": {"execution": -0.8},
-        "D": {"execution": 1.0}
-    },
-    "trial": {
-        "A": {"trial": 1.0},
-        "B": {"trial": -1.0}
-    },
-    "interaction": {
-        "A": {"ambiguity": 0.5, "execution": 0.3},
-        "B": {"ambiguity": -0.5},
-        "C": {"analytical": 0.5},
-        "D": {"trial": 0.7}
+    "C": {
+      "ambiguity": -0.25,
+      "frustration": -0.3,
+      "execution": -0.2
     }
+  },
+
+  "2": {
+    "A": {
+      "execution": 0.35,
+      "trial": 0.15,
+      "structure": -0.1
+    },
+    "B": {
+      "ideation": 0.35,
+      "analytical": 0.1,
+      "execution": -0.1
+    },
+    "C": {
+      "ideation": 0.3,
+      "trial": 0.1,
+      "analytical": -0.05
+    },
+    "D": {
+      "structure": 0.35,
+      "execution": 0.1,
+      "ideation": -0.05
+    }
+  },
+
+  "3": {
+    "A": {
+      "analytical": 0.25,
+      "frustration": 0.25,
+      "trial": -0.05
+    },
+    "B": {
+      "trial": 0.25,
+      "analytical": 0.15,
+      "frustration": 0.2
+    },
+    "C": {
+      "frustration": -0.35,
+      "execution": -0.15
+    },
+    "D": {
+      "frustration": 0.1,
+      "analytical": 0.1,
+      "ambiguity": -0.1
+    }
+  },
+
+  "4": {
+    "A": {
+      "structure": 0.4,
+      "analytical": 0.1,
+      "trial": -0.1
+    },
+    "B": {
+      "structure": 0.15,
+      "ambiguity": 0.2,
+      "trial": 0.1
+    },
+    "C": {
+      "structure": 0.25,
+      "analytical": 0.2
+    },
+    "D": {
+      "trial": 0.4,
+      "structure": -0.25,
+      "execution": 0.1
+    }
+  },
+
+  "5": {
+    "A": {
+      "analytical": 0.15,
+      "ideation": 0.15
+    },
+    "B": {
+      "analytical": 0.4,
+      "structure": 0.1
+    },
+    "C": {
+      "trial": 0.35,
+      "execution": 0.15,
+      "analytical": -0.05
+    },
+    "D": {
+      "analytical": 0.25,
+      "structure": 0.15,
+      "trial": 0.05
+    }
+  },
+
+  "6": {
+    "A": {
+      "execution": -0.35,
+      "ambiguity": -0.15
+    },
+    "B": {
+      "execution": 0.25,
+      "trial": 0.15
+    },
+    "C": {
+      "execution": -0.25,
+      "frustration": -0.2
+    },
+    "D": {
+      "execution": 0.35,
+      "analytical": 0.1,
+      "ambiguity": 0.15
+    }
+  },
+
+  "7": {
+    "A": {
+      "execution": 0.25,
+      "ambiguity": 0.2
+    },
+    "B": {
+      "ambiguity": -0.35,
+      "execution": -0.1
+    },
+    "C": {
+      "analytical": 0.35,
+      "execution": -0.05
+    },
+    "D": {
+      "trial": 0.35,
+      "execution": 0.1
+    }
+  },
+
+  "8": {
+    "A": {
+      "ideation": 0.25,
+      "execution": 0.05
+    },
+    "B": {
+      "ideation": 0.4,
+      "analytical": 0.15
+    },
+    "C": {
+      "execution": 0.35,
+      "ideation": -0.15
+    },
+    "D": {
+      "structure": 0.35,
+      "analytical": 0.1
+    }
+  },
+
+  "9": {
+    "A": {
+      "execution": 0.25,
+      "structure": 0.15,
+      "ideation": -0.1
+    },
+    "B": {
+      "ideation": 0.25,
+      "analytical": 0.15
+    },
+    "C": {
+      "structure": 0.35,
+      "ambiguity": -0.15
+    },
+    "D": {
+      "trial": 0.4,
+      "ideation": 0.2,
+      "structure": -0.1
+    }
+  },
+
+  "10": {
+    "A": {
+      "ideation": 0.4,
+      "trial": 0.1
+    },
+    "B": {
+      "execution": 0.25,
+      "trial": 0.2
+    },
+    "C": {
+      "analytical": 0.35,
+      "structure": 0.1
+    },
+    "D": {
+      "ambiguity": -0.25,
+      "analytical": 0.1
+    }
+  }
 }

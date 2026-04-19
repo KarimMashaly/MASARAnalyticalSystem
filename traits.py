@@ -1,11 +1,15 @@
 import math
-import json
 
-def read_traits(file_path=r"Data//traits.json"):
-    with open(file_path, 'r', encoding='utf-8') as f:
-        return json.load(f)
+TRAITS_DECTIONATY = {
+    "analytical" : 0.0 ,
+    "structure" : 0.0 ,
+    "execution" : 0.0 ,
+    "ambiguity" : 0.0 ,
+    "trial" : 0.0 ,
+    "frustration" : 0.0 ,
+    "ideation" : 0.0 
+}
     
-TRAITS_DECTIONATY = read_traits()
 
 def build_traits(answers, feature_map):
     raw = TRAITS_DECTIONATY.copy()
