@@ -3,9 +3,9 @@ from pipeline import run_pipeline
 import arabic_reshaper
 from bidi.algorithm import get_display
 
-QUESTIONS = [
+QUESTIONS =  [
   {
-    "id": "ambiguity",
+    "id": "1",
     "text": "لما تدخل على موضوع جديد ومش واضح...",
     "options": {
       "A": "أستنى لحد ما الصورة تبقى واضحة",
@@ -15,7 +15,7 @@ QUESTIONS = [
     }
   },
   {
-    "id": "execution_vs_ideation",
+    "id": "2",
     "text": "فكرت تعمل حاجة جديدة في وقت فراغك...",
     "options": {
       "A": "أبدأ أنفذ فورًا",
@@ -25,7 +25,7 @@ QUESTIONS = [
     }
   },
   {
-    "id": "frustration",
+    "id": "3",
     "text": "كل مرة بتحل المشكلة وتطلع غلط، أول حاجة تعملها...",
     "options": {
       "A": "أحلل الخطأ في نفس الطريقة",
@@ -35,7 +35,7 @@ QUESTIONS = [
     }
   },
   {
-    "id": "structure",
+    "id": "4",
     "text": "لما بتذاكر موضوع جديد...",
     "options": {
       "A": "أمشي خطوة خطوة بالترتيب",
@@ -45,7 +45,7 @@ QUESTIONS = [
     }
   },
   {
-    "id": "analytical",
+    "id": "5",
     "text": "قدامك مشكلة كبيرة...",
     "options": {
       "A": "أفهم الصورة العامة الأول",
@@ -55,7 +55,7 @@ QUESTIONS = [
     }
   },
   {
-    "id": "execution_behavior",
+    "id": "6",
     "text": "عندك task مش محدد قوي...",
     "options": {
       "A": "أستنى تفاصيل أكتر",
@@ -65,7 +65,7 @@ QUESTIONS = [
     }
   },
   {
-    "id": "uncertainty",
+    "id": "7",
     "text": "مش متأكد إن الحل صح...",
     "options": {
       "A": "أكمل وأعدل لو احتاج",
@@ -75,7 +75,7 @@ QUESTIONS = [
     }
   },
   {
-    "id": "ideation",
+    "id": "8",
     "text": "لما تيجي تفكر في مشروع جديد...",
     "options": {
       "A": "أتخيل شكله وتجربة استخدامه",
@@ -85,7 +85,7 @@ QUESTIONS = [
     }
   },
   {
-    "id": "creativity",
+    "id": "9",
     "text": "لما تشتغل على حاجة ليها حل معروف...",
     "options": {
       "A": "أعملها زي ما هي عشان أوفر وقت",
@@ -95,7 +95,7 @@ QUESTIONS = [
     }
   },
   {
-    "id": "open_ended",
+    "id": "10",
     "text": "لما حد يديك فكرة عامة...",
     "options": {
       "A": "أطورها وأضيف أفكار جديدة",
@@ -105,7 +105,6 @@ QUESTIONS = [
     }
   }
 ]
-
 
 
 def arabic_print(text, end="\n"):

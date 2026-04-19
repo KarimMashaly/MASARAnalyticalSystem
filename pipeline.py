@@ -18,7 +18,7 @@ def run_pipeline(answers):
     scores = score_tracks(traits)
     best_track = max(scores, key=scores.get)
     confidence = compute_confidence(scores)
-    explanation = explain(traits, best_track)
+    explanation = explain(traits, best_track, scores)
 
     return {
         "traits": traits,

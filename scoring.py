@@ -102,7 +102,6 @@ def score_tracks(user):
 
     confidence = (top - second) / (top + 1e-6)
 
-    return {
-        "scores": normalized_scores,
-        "confidence": round(confidence, 4)
-    }
+    return  normalized_scores
+       
+    
