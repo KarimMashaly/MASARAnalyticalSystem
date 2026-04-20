@@ -5,7 +5,7 @@ from explanation import explain
 import json
 
 
-def read_feature_map(file_path=r"E:\Documents\Masar\Analytical System\Track_Desicion\Data\feature_map.json"):
+def read_feature_map(file_path=r"E:\Documents\Masar\Analytical System\MASAR_Analytical_System\Data\feature_map.json"):
     with open(file_path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
