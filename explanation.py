@@ -29,7 +29,7 @@ def explain(user, track, scores):
     track_logic = {
         "AI": ["analytical", "ambiguity", "trial"],
         "Backend": ["analytical", "structure", "execution"],
-        "Frontend": ["execution", "trial", "ideation"]
+        "Frontend": ["execution", "trial", "ideation"] 
     }
 
     relevant_traits = track_logic[track]
