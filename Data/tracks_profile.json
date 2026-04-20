@@ -1,104 +1,110 @@
 {
   "traits_dictionary": {
-    "analytical": 0.0,
-    "structure": 0.0,
-    "execution": 0.0,
-    "ambiguity": 0.0,
-    "trial": 0.0,
-    "frustration": 0.0,
-    "ideation": 0.0
+    "analytical":   0.0,
+    "structure":    0.0,
+    "execution":    0.0,
+    "ambiguity":    0.0,
+    "trial":        0.0,
+    "frustration":  0.0,
+    "ideation":     0.0,
+    "precision":    0.0,
+    "visual":       0.0,
+    "pattern":      0.0
   },
 
   "tracks": {
     "AI": {
       "traits": {
-        "analytical": [0.75, 1.0, 0.25],
-        "ambiguity": [0.65, 1.0, 0.22],
-        "frustration": [0.65, 1.0, 0.15],
-        "trial": [0.55, 0.9, 0.13],
-        "structure": [0.4, 0.75, 0.10],
-        "execution": [0.4, 0.75, 0.08],
-        "ideation": [0.5, 0.85, 0.07]
+        "analytical":  [0.72, 1.0,  0.22],
+        "pattern":     [0.70, 1.0,  0.20],
+        "ambiguity":   [0.65, 1.0,  0.18],
+        "frustration": [0.60, 1.0,  0.14],
+        "trial":       [0.50, 0.85, 0.10],
+        "ideation":    [0.45, 0.75, 0.08],
+        "structure":   [0.35, 0.65, 0.04],
+        "execution":   [0.30, 0.65, 0.02],
+        "precision":   [0.40, 0.75, 0.01],
+        "visual":      [0.20, 0.60, 0.01]
       },
       "penalty_rules": [
-        {
-          "trait": "ambiguity",
-          "threshold": 0.5,
-          "factor": 1.0
-        },
-        {
-          "trait": "analytical",
-          "threshold": 0.6,
-          "factor": 0.8
-        }
+        { "trait": "analytical",  "threshold": 0.65, "factor": 1.2 },
+        { "trait": "ambiguity",   "threshold": 0.55, "factor": 1.0 },
+        { "trait": "pattern",     "threshold": 0.55, "factor": 0.9 }
       ],
       "interaction_rules": [
         {
-          "traits": ["analytical", "ambiguity"],
-          "thresholds": [0.75, 0.7],
-          "bonus": 0.2
+          "traits":     ["analytical", "ambiguity", "pattern"],
+          "thresholds": [0.70, 0.65, 0.65],
+          "bonus":      0.18
+        },
+        {
+          "traits":     ["frustration", "trial"],
+          "thresholds": [0.60, 0.55],
+          "bonus":      0.08
         }
       ]
     },
 
     "Backend": {
       "traits": {
-        "analytical": [0.7, 1.0, 0.25],
-        "structure": [0.7, 1.0, 0.22],
-        "execution": [0.65, 1.0, 0.20],
-        "frustration": [0.65, 1.0, 0.12],
-        "ambiguity": [0.3, 0.6, 0.10],
-        "trial": [0.4, 0.7, 0.06],
-        "ideation": [0.4, 0.7, 0.05]
+        "analytical":  [0.68, 1.0,  0.22],
+        "structure":   [0.70, 1.0,  0.22],
+        "precision":   [0.65, 1.0,  0.18],
+        "execution":   [0.60, 1.0,  0.14],
+        "frustration": [0.55, 1.0,  0.10],
+        "ambiguity":   [0.25, 0.55, 0.06],
+        "trial":       [0.35, 0.65, 0.04],
+        "ideation":    [0.30, 0.60, 0.03],
+        "pattern":     [0.35, 0.70, 0.01],
+        "visual":      [0.15, 0.50, 0.00]
       },
       "penalty_rules": [
-        {
-          "trait": "structure",
-          "threshold": 0.6,
-          "factor": 1.0
-        },
-        {
-          "trait": "execution",
-          "threshold": 0.6,
-          "factor": 0.8
-        }
+        { "trait": "structure",  "threshold": 0.62, "factor": 1.2 },
+        { "trait": "precision",  "threshold": 0.58, "factor": 1.0 },
+        { "trait": "execution",  "threshold": 0.55, "factor": 0.9 }
       ],
       "interaction_rules": [
         {
-          "traits": ["analytical", "structure"],
-          "thresholds": [0.75, 0.75],
-          "bonus": 0.18
+          "traits":     ["analytical", "structure", "precision"],
+          "thresholds": [0.70, 0.70, 0.65],
+          "bonus":      0.18
+        },
+        {
+          "traits":     ["execution", "frustration"],
+          "thresholds": [0.62, 0.58],
+          "bonus":      0.08
         }
       ]
     },
 
     "Frontend": {
       "traits": {
-        "execution": [0.7, 1.0, 0.22],
-        "trial": [0.65, 1.0, 0.20],
-        "ideation": [0.65, 1.0, 0.20],
-        "ambiguity": [0.55, 0.85, 0.12],
-        "structure": [0.4, 0.7, 0.10],
-        "frustration": [0.5, 0.8, 0.08],
-        "analytical": [0.4, 0.7, 0.08]
+        "execution":   [0.68, 1.0,  0.22],
+        "visual":      [0.65, 1.0,  0.20],
+        "ideation":    [0.62, 1.0,  0.18],
+        "trial":       [0.60, 1.0,  0.16],
+        "ambiguity":   [0.50, 0.82, 0.10],
+        "frustration": [0.45, 0.78, 0.06],
+        "structure":   [0.35, 0.65, 0.04],
+        "analytical":  [0.30, 0.62, 0.03],
+        "precision":   [0.35, 0.68, 0.01],
+        "pattern":     [0.20, 0.55, 0.00]
       },
       "penalty_rules": [
-        {
-          "trait": "execution",
-          "threshold": 0.6,
-          "factor": 0.8
-        },
-        {
-          "trait": "trial",
-          "threshold": 0.6,
-          "factor": 0.8
-        }
+        { "trait": "execution", "threshold": 0.60, "factor": 1.0 },
+        { "trait": "trial",     "threshold": 0.55, "factor": 0.9 },
+        { "trait": "visual",    "threshold": 0.55, "factor": 0.9 }
       ],
       "interaction_rules": [
         {
-          "traits": ["ideation", "trial"],
-          "thresholds": [0.7, 0.7],
-          "bonus": 0.2
+          "traits":     ["ideation", "visual", "trial"],
+          "thresholds": [0.65, 0.62, 0.60],
+          "bonus":      0.18
+        },
+        {
+          "traits":     ["execution", "ambiguity"],
+          "thresholds": [0.65, 0.52],
+          "bonus":      0.08
         }
       ]
     }
