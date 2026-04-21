@@ -5,10 +5,15 @@ from explanation import explain
 import json
 
 
-def read_feature_map(file_path=r"E:\Documents\Masar\Analytical System\MASAR_Analytical_System\Data\feature_map.json"):
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def read_feature_map(file_path=None):
+    if file_path is None:
+        file_path = os.path.join(BASE_DIR, "Data", "feature_map.json")
     with open(file_path, 'r', encoding='utf-8') as f:
         return json.load(f)
-
 
 def run_pipeline(answers):
     raw    = build_traits(answers, feature_map=read_feature_map())

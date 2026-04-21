@@ -1,7 +1,13 @@
 import json
 
 
-def read_track_profiles(file_path=r"E:\Documents\Masar\Analytical System\MASAR_Analytical_System\Data\tracks_profile.json"):
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def read_track_profiles(file_path=None):
+    if file_path is None:
+        file_path = os.path.join(BASE_DIR, "Data", "tracks_profile.json")
     with open(file_path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
