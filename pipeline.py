@@ -1,7 +1,8 @@
 from traits import build_traits, normalize_traits
-from scoring import score_tracks
+from scoring import score_tracks, normalize_scores, TRACK_PROFILES
 from confidence import compute_confidence
 from explanation import explain
+
 import json
 
 
@@ -16,8 +17,9 @@ def run_pipeline(answers):
 
     scores          = score_tracks(traits)
     best_track      = max(scores, key=scores.get)
-    confidence_info = compute_confidence(scores)
-    explanation     = explain(traits, best_track, scores, confidence_info)
+    probs           = normalize_scores(scores)  # softmax
+    confidence_info = compute_confidence(probs)
+    explanation     = explain(traits, best_track, probs, confidence_info, TRACK_PROFILES)
 
     return {
         "traits":      traits,
@@ -26,3 +28,4 @@ def run_pipeline(answers):
         "confidence":  confidence_info,
         "explanation": explanation
     }
+
