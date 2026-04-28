@@ -15,21 +15,21 @@
   "tracks": {
     "AI": {
       "traits": {
-        "analytical":  [0.72, 1.0,  0.22],
-        "pattern":     [0.70, 1.0,  0.20],
+        "analytical":  [0.75, 1.0,  0.25],
+        "pattern":     [0.70, 1.0,  0.22],
         "ambiguity":   [0.65, 1.0,  0.18],
-        "frustration": [0.60, 1.0,  0.14],
-        "trial":       [0.50, 0.85, 0.10],
-        "ideation":    [0.45, 0.75, 0.08],
+        "frustration": [0.60, 1.0,  0.12],
+        "trial":       [0.50, 0.85, 0.08],
+        "ideation":    [0.45, 0.75, 0.06],
         "structure":   [0.35, 0.65, 0.04],
-        "execution":   [0.30, 0.65, 0.02],
+        "execution":   [0.30, 0.65, 0.03],
         "precision":   [0.40, 0.75, 0.01],
         "visual":      [0.20, 0.60, 0.01]
       },
       "penalty_rules": [
-        { "trait": "analytical",  "threshold": 0.65, "factor": 1.2 },
-        { "trait": "ambiguity",   "threshold": 0.55, "factor": 1.0 },
-        { "trait": "pattern",     "threshold": 0.55, "factor": 0.9 }
+        { "trait": "analytical", "threshold": 0.65, "factor": 2.5 },
+        { "trait": "ambiguity",  "threshold": 0.55, "factor": 2.2 },
+        { "trait": "pattern",    "threshold": 0.55, "factor": 2.0 }
       ],
       "interaction_rules": [
         {
@@ -47,21 +47,21 @@
 
     "Backend": {
       "traits": {
-        "analytical":  [0.68, 1.0,  0.22],
-        "structure":   [0.70, 1.0,  0.22],
-        "precision":   [0.65, 1.0,  0.18],
-        "execution":   [0.60, 1.0,  0.14],
-        "frustration": [0.55, 1.0,  0.10],
-        "ambiguity":   [0.25, 0.55, 0.06],
-        "trial":       [0.35, 0.65, 0.04],
-        "ideation":    [0.30, 0.60, 0.03],
+        "analytical":  [0.65, 0.85, 0.22],
+        "structure":   [0.75, 1.0,  0.25],
+        "precision":   [0.65, 1.0,  0.22],
+        "execution":   [0.55, 0.85, 0.20],
+        "frustration": [0.55, 1.0,  0.05],
+        "ambiguity":   [0.25, 0.55, 0.03],
+        "trial":       [0.35, 0.65, 0.02],
+        "ideation":    [0.30, 0.60, 0.00],
         "pattern":     [0.35, 0.70, 0.01],
         "visual":      [0.15, 0.50, 0.00]
       },
       "penalty_rules": [
-        { "trait": "structure",  "threshold": 0.62, "factor": 1.2 },
-        { "trait": "precision",  "threshold": 0.58, "factor": 1.0 },
-        { "trait": "execution",  "threshold": 0.50, "factor": 0.9 }
+        { "trait": "structure",  "threshold": 0.62, "factor": 2.5 },
+        { "trait": "precision",  "threshold": 0.58, "factor": 2.2 },
+        { "trait": "execution",  "threshold": 0.50, "factor": 2.0 }
       ],
       "interaction_rules": [
         {
@@ -71,7 +71,7 @@
         },
         {
           "traits":     ["execution", "frustration"],
-          "thresholds": [0.62, 0.58],
+          "thresholds": [0.60, 0.55],
           "bonus":      0.08
         }
       ]
@@ -79,21 +79,21 @@
 
     "Frontend": {
       "traits": {
-        "execution":   [0.68, 1.0,  0.22],
-        "visual":      [0.65, 1.0,  0.20],
+        "execution":   [0.70, 1.0,  0.25],
+        "visual":      [0.65, 1.0,  0.22],
         "ideation":    [0.62, 1.0,  0.18],
-        "trial":       [0.60, 1.0,  0.16],
-        "ambiguity":   [0.50, 0.82, 0.10],
-        "frustration": [0.45, 0.78, 0.06],
-        "structure":   [0.35, 0.65, 0.04],
-        "analytical":  [0.30, 0.62, 0.03],
+        "trial":       [0.60, 1.0,  0.20],
+        "ambiguity":   [0.50, 0.82, 0.07],
+        "frustration": [0.45, 0.78, 0.04],
+        "structure":   [0.35, 0.65, 0.02],
+        "analytical":  [0.30, 0.62, 0.01],
         "precision":   [0.35, 0.68, 0.01],
         "pattern":     [0.20, 0.55, 0.00]
       },
       "penalty_rules": [
-        { "trait": "execution", "threshold": 0.60, "factor": 1.0 },
-        { "trait": "trial",     "threshold": 0.55, "factor": 0.9 },
-        { "trait": "visual",    "threshold": 0.55, "factor": 0.9 }
+        { "trait": "execution", "threshold": 0.60, "factor": 2.5 },
+        { "trait": "trial",     "threshold": 0.55, "factor": 2.2 },
+        { "trait": "visual",    "threshold": 0.55, "factor": 2.0 }
       ],
       "interaction_rules": [
         {
