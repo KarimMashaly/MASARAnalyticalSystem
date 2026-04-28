@@ -13,6 +13,19 @@ TRAITS_DICTIONARY = {
     "pattern":     0.0
 }
 
+TRAIT_RANGES = {
+    "analytical":  (-0.40, 3.30),
+    "structure":   (-0.65, 3.10),
+    "execution":   (-0.45, 3.35),
+    "ambiguity":   (-0.35, 2.00),
+    "trial":       (-0.10, 2.50),
+    "frustration": (0.00, 1.30),
+    "ideation":    (-0.25, 2.10),
+    "visual":      (-0.10, 2.50),
+    "precision":   (-0.35, 2.60),
+    "pattern":     (-0.10, 2.60)
+}
+
 
 def build_traits(answers, feature_map):
     raw = TRAITS_DICTIONARY.copy()
@@ -32,8 +45,12 @@ def normalize_traits(raw):
     """
     normalized = {}
     for t, v in raw.items():
-        x = v / 1.4
-        s = 1 / (1 + math.exp(-x))
-        s = max(0.02, min(0.98, s))
-        normalized[t] = round(s, 3)
+        min_v, max_v = TRAIT_RANGES[t]
+
+        norm = (v - min_v) / (max_v - min_v)
+
+        # clamp عشان safety
+        norm = max(0.0, min(1.0, norm))
+
+        normalized[t] = round(norm, 3)
     return normalized
