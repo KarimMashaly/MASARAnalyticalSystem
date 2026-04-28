@@ -61,12 +61,12 @@
       "penalty_rules": [
         { "trait": "structure",  "threshold": 0.62, "factor": 1.2 },
         { "trait": "precision",  "threshold": 0.58, "factor": 1.0 },
-        { "trait": "execution",  "threshold": 0.55, "factor": 0.9 }
+        { "trait": "execution",  "threshold": 0.50, "factor": 0.9 }
       ],
       "interaction_rules": [
         {
           "traits":     ["analytical", "structure", "precision"],
-          "thresholds": [0.70, 0.70, 0.65],
+          "thresholds": [0.60, 0.70, 0.65],
           "bonus":      0.18
         },
         {
