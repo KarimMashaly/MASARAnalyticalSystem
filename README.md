@@ -4,17 +4,17 @@
 
 ## 📌 Overview
 
-**Masar** is an intelligent decision system that recommends the most suitable programming track based on **behavioral patterns**, not direct skill input.
+**Masar** is an intelligent decision system that recommends the most suitable programming track based on **behavioral patterns**, not explicit technical input.
 
 Instead of asking:
 
-> “What are you good at?”
+> “What are your skills?”
 
-Masar asks:
+Masar infers:
 
-> “How do you think, react, and solve problems?”
+> “How do you think, act, and solve problems?”
 
-Then converts those behaviors into structured traits and maps them to the most compatible technical track.
+Then maps these behavioral traits to the most compatible technical track.
 
 ---
 
@@ -23,12 +23,12 @@ Then converts those behaviors into structured traits and maps them to the most c
 * 🧠 Artificial Intelligence (AI)
 * ⚙️ Backend Development
 * 🎨 Frontend Development
+* 📱 Mobile Development
+* 🧪 Software Testing
 
 ---
 
-## 🧠 System Architecture
-
-The system operates as a **multi-stage pipeline**:
+## 🧠 System Pipeline
 
 ```text
 Answers → Traits → Scores → Probabilities → Confidence → Explanation
@@ -36,27 +36,25 @@ Answers → Traits → Scores → Probabilities → Confidence → Explanation
 
 ---
 
-# 🧩 Stage 1: Behavioral Input → Traits
+# 🧩 Stage 1: Answers → Traits
 
-## 📋 Questions
+## 📋 Behavioral Questions
 
-Users answer scenario-based questions (real-world situations, not technical questions).
-
-These capture:
+Users answer scenario-based questions that capture:
 
 * Thinking style
-* Decision-making patterns
-* Learning behavior
-* Reaction to uncertainty and difficulty
+* Problem-solving approach
+* Reaction to ambiguity
+* Execution vs planning preference
 
 ---
 
 ## ⚙️ Feature Mapping
 
-Each answer contributes to multiple traits:
+Each answer contributes to traits:
 
 ```text
-Answer → Trait adjustments (positive / negative)
+Answer → Trait adjustments
 ```
 
 ---
@@ -67,27 +65,25 @@ Implemented in: `traits.py`
 
 ### Steps:
 
-1. Initialize baseline traits
+1. Initialize base traits
 2. Apply feature map effects
-3. Normalize traits into range [0, 1]
+3. Normalize traits into [0, 1]
 
 ---
 
-## 🔬 Normalization
-
-Traits are normalized using **bounded linear scaling + clamping**:
+## 🔬 Trait Normalization
 
 ```text
-raw → normalized ∈ [0, 1]
+raw → normalized ∈ [0,1]
 ```
 
-✔ Prevents extreme values
 ✔ Keeps traits comparable
-✔ Stabilizes downstream scoring
+✔ Prevents extreme values
+✔ Stabilizes scoring
 
 ---
 
-# 🧠 Stage 2: Traits → Track Scoring
+# 🧠 Stage 2: Traits → Scoring
 
 ## 📁 Track Profiles
 
@@ -99,10 +95,10 @@ Data/tracks_profile.json
 
 Each track includes:
 
-* Trait ranges (min, max)
+* Trait ranges (expected behavior)
 * Trait weights (importance)
-* Penalty rules (constraints)
-* Interaction rules (trait synergy)
+* Penalty rules (minimum requirements)
+* Interaction rules (trait combinations)
 
 ---
 
@@ -114,14 +110,11 @@ Implemented in: `scoring.py`
 
 ### 1) Range-Based Similarity
 
-Each trait is evaluated using a **centered similarity function**:
+Each trait is evaluated based on distance from optimal range:
 
 ```text
-Similarity = distance from optimal range center
+Similarity = closeness to range center
 ```
-
-✔ Rewards alignment
-✔ Penalizes deviation smoothly
 
 ---
 
@@ -133,33 +126,37 @@ Base = Σ (weight × similarity)
 
 ---
 
-### 3) Penalty System (Critical Constraints)
+### 3) Penalty System
+
+Applied when critical traits are below threshold:
 
 ```text
-Penalty ∝ (threshold - value)^2
+Penalty ∝ (gap)^2
 ```
 
-✔ Strongly penalizes missing core requirements
-✔ Non-linear (small gaps → small penalty, big gaps → strong penalty)
+✔ Strong nonlinear penalty
+✔ Enforces track requirements
 
 ---
 
-### 4) Interaction Bonuses (Synergy)
+### 4) Interaction Bonus
 
-Captures trait combinations:
+Captures synergy between traits:
 
 ```text
-Analytical + Ambiguity → AI boost
+Analytical + Pattern → AI boost  
+Precision + Analytical → Testing boost  
+Execution + Visual → Mobile/Frontend boost  
 ```
 
 Supports:
 
 * Full bonus
-* Partial bonus (near-threshold behavior)
+* Partial bonus (near-threshold)
 
 ---
 
-### 🎯 Final Score
+## 🎯 Final Score
 
 ```text
 Score = Base - Penalty + Interaction
@@ -167,14 +164,13 @@ Score = Base - Penalty + Interaction
 
 ---
 
-## ⚠️ Important Design Note
+## ⚠️ Important
 
-Scores are **not bounded** and may be:
+Scores are:
 
-* Negative
-* Greater than 1
-
-They represent **relative suitability (energy)**, not probabilities.
+* Not bounded
+* May be negative or >1
+* Represent **relative suitability**, not probability
 
 ---
 
@@ -182,62 +178,37 @@ They represent **relative suitability (energy)**, not probabilities.
 
 ## Softmax Normalization
 
-Implemented in `scoring.py` 
-
 ```text
 score → exp(score) / Σ exp(score)
 ```
 
 ---
 
-## Why Softmax?
+## Purpose
 
-Converts raw scores into:
+Transforms raw scores into:
 
-* ✔ Probabilities (0 → 1)
-* ✔ Comparable values
-* ✔ Meaningful distribution
-
----
-
-## Interpretation
-
-| Concept     | Meaning              |
-| ----------- | -------------------- |
-| Score       | Suitability strength |
-| Probability | Relative likelihood  |
+* Probabilities (0–1)
+* Comparable distribution
+* Interpretable output
 
 ---
 
-# 📊 Stage 4: Confidence Calculation
+# 📊 Stage 4: Confidence
 
 Implemented in: `confidence.py` 
 
 ---
 
-## Uses 3 signals:
+## Signals Used
 
-### 1) Absolute Gap
-
-```text
-top - second
-```
-
-### 2) Entropy (uncertainty)
-
-```text
-distribution spread
-```
-
-### 3) Dominance
-
-```text
-top probability
-```
+1. Gap between top and second
+2. Entropy (uncertainty)
+3. Dominance of top track
 
 ---
 
-## Final Formula
+## Formula
 
 ```text
 Confidence = 0.6*gap + 0.3*certainty + 0.1*dominance
@@ -264,23 +235,29 @@ Implemented in: `explanation.py`
 
 ---
 
-## Key Features
+## Features
 
-### ✔ Decision-aware explanation
+### ✔ Track-aware explanation
 
-Uses same logic as scoring (weights + traits)
+Uses actual track weights
 
 ---
 
 ### ✔ Personalized strengths
 
-Selects traits based on **importance for chosen track**
+Based on relevant traits
 
 ---
 
-### ✔ “Why this, not that”
+### ✔ “Why this track”
 
-Explains why the second track was not chosen
+Explains reasoning behind selection
+
+---
+
+### ✔ “Why not second track”
+
+Handles user doubt explicitly
 
 ---
 
@@ -296,9 +273,9 @@ Changes based on confidence:
 
 ---
 
-### ✔ Development guidance
+### ✔ Development suggestions
 
-Suggests improvement areas relevant to the track
+Guides user toward improvement
 
 ---
 
@@ -345,33 +322,31 @@ python main.py
 
 # 🧠 Design Philosophy
 
-Masar combines:
+Masar combines multiple decision layers:
 
-| Layer                | Role                           |
-| -------------------- | ------------------------------ |
-| Behavioral Questions | Capture real thinking patterns |
-| Traits               | Abstract personality           |
-| Scoring              | Measure compatibility          |
-| Softmax              | Normalize competition          |
-| Confidence           | Measure certainty              |
-| Explanation          | Justify decision               |
+| Layer       | Role                      |
+| ----------- | ------------------------- |
+| Behavior    | Input signal              |
+| Traits      | Abstract representation   |
+| Scoring     | Compatibility measurement |
+| Softmax     | Relative comparison       |
+| Confidence  | Decision certainty        |
+| Explanation | Justification             |
 
 ---
 
 # ⚠️ Limitations
 
-* Depends heavily on:
+* Depends on:
 
-  * Feature map quality
+  * Feature map design
   * Track profile calibration
-* Not trained on real user data (rule-based system)
-* Sensitive to trait overlap between tracks
+
+* Not data-trained (rule-based system)
+
+* Track overlap may cause:
+
+  * Medium/low confidence results
 
 ---
 
-# 💣 Core Insight
-
-Masar is not just a classifier.
-
-> It is a **decision + justification system**
-> that explains *why* a track fits a user—not just *which* one.
