@@ -27,9 +27,9 @@ def compute_confidence(scores):
     confidence = round(min(1.0, max(0.0, confidence_raw)), 4)
 
     # Label for explanation engine
-    if confidence >= 0.55:
+    if confidence >= 0.60:
         label = "high"
-    elif confidence >= 0.25:
+    elif confidence >= 0.30:
         label = "medium"
     else:
         label = "low"
