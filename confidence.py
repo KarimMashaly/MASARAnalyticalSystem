@@ -1,42 +1,58 @@
 import math
 
-
-def compute_confidence(scores):
+def compute_confidence(probs):
     """
-    Confidence score based on full distribution separation, not just top-second gap.
+    Robust confidence score using:
+    1) Absolute gap (top vs second)
+    2) Entropy (distribution uncertainty)
+    3) Dominance ratio (top vs total mass)
 
-    Uses a combination of:
-    1. Normalized gap between top and second (primary signal)
-    2. Distance of third track from top (catches close three-way splits)
-    3. Returns a label + numeric score for richer output
+    probs: dict like {"AI": 0.7, "Backend": 0.2, "Frontend": 0.1}
+           (must already be normalized, e.g., via softmax)
     """
-    sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
 
-    top_val    = sorted_scores[0][1]
-    second_val = sorted_scores[1][1] if len(sorted_scores) > 1 else 0
-    third_val  = sorted_scores[2][1] if len(sorted_scores) > 2 else 0
+    # --- Sort tracks ---
+    sorted_items = sorted(probs.items(), key=lambda x: x[1], reverse=True)
 
-    # Primary: gap between top and second, normalized by total range
-    score_range = top_val - third_val + 1e-6
-    gap_ratio = (top_val - second_val) / score_range
+    top_track, top_p = sorted_items[0]
+    second_track, second_p = sorted_items[1] if len(sorted_items) > 1 else ("", 0.0)
 
-    # Secondary: how far second is from third (spread of the pack)
-    pack_spread = (second_val - third_val) / score_range
+    # --- 1) Absolute gap (primary signal) ---
+    gap = top_p - second_p  # [0 → 1]
 
-    confidence_raw = (gap_ratio * 0.75) + (pack_spread * 0.25)
-    confidence = round(min(1.0, max(0.0, confidence_raw)), 4)
+    # --- 2) Entropy (uncertainty of full distribution) ---
+    eps = 1e-9
+    entropy = -sum(p * math.log(p + eps) for p in probs.values())
 
-    # Label for explanation engine
-    if confidence >= 0.60:
+    max_entropy = math.log(len(probs))  # worst case (uniform)
+    entropy_norm = entropy / max_entropy  # [0 → 1]
+    certainty = 1 - entropy_norm         # invert → higher = better
+
+    # --- 3) Dominance (how much top dominates total mass) ---
+    # Helps distinguish 0.5 vs 0.49 vs 0.01 from 0.34/0.33/0.33
+    dominance = top_p  # already meaningful since probs sum to 1
+
+    # --- Final combination (weighted) ---
+    confidence_raw = (
+        (gap * 0.6) +
+        (certainty * 0.3) +
+        (dominance * 0.1)
+    )
+
+    # --- Clamp to [0,1] ---
+    confidence = max(0.0, min(1.0, confidence_raw))
+
+    # --- Label ---
+    if confidence >= 0.65:
         label = "high"
-    elif confidence >= 0.30:
+    elif confidence >= 0.40:
         label = "medium"
     else:
         label = "low"
 
     return {
-        "score": confidence,
+        "score": round(confidence, 4),
         "label": label,
-        "top_track": sorted_scores[0][0],
-        "second_track": sorted_scores[1][0]
+        "top_track": top_track,
+        "second_track": second_track,
     }
