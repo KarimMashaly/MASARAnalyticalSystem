@@ -15,7 +15,9 @@ def explain(user, track, probs, confidence_info, TRACK_PROFILES):
     track_key_traits = {
         "AI":       ["analytical", "pattern", "ambiguity", "frustration"],
         "Backend":  ["analytical", "structure", "precision", "execution"],
-        "Frontend": ["execution", "visual", "ideation", "trial"]
+        "Frontend": ["execution", "visual", "ideation", "trial"],
+        "Mobile":   ["execution", "visual", "ideation", "structure"],
+        "Testing":  ["precision", "analytical", "pattern", "structure"]
     }
 
     tone_templates = {
@@ -87,7 +89,7 @@ def explain(user, track, probs, confidence_info, TRACK_PROFILES):
     weak_text = [trait_text[t] for t in weak]
 
     explanation.append(
-        f"لو حبيت تطور نفسك أكتر في تراك {second} ، ركز على "
+        f"لو حبيت تطور نفسك أكتر في تراك {second}، ركز على "
         + " و".join(weak_text) + "."
     )
 
