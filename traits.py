@@ -1,5 +1,31 @@
 import math
 
+TRAIT_DEFINITION = {
+    "analytical": "logical step-by-step reasoning",
+    "pattern": "ability to detect hidden relationships and generalize",
+    "precision": "attention to correctness, edge cases, strict validation",
+    "structure": "preference for order, planning, deterministic flow",
+    "execution": "drive to build and complete working solutions",
+    "trial": "willingness to try without full understanding",
+    "ambiguity": "comfort working without clear requirements",
+    "ideation": "ability to generate ideas and alternatives",
+    "visual": "sensitivity to UI/UX and visual clarity",
+    "frustration": "persistence under repeated failure"
+}
+
+TRAIT_RULES = {
+    "analytical": "used only when breaking problem into steps",
+    "pattern": "used only when detecting relations or abstraction",
+    "precision": "used only for correctness, edge cases, validation",
+    "structure": "used only for planning/order (NOT thinking)",
+    "execution": "used only for acting/building",
+    "trial": "used only when action happens WITHOUT full understanding",
+    "ambiguity": "used when user accepts unclear situations",
+    "ideation": "used when generating ideas (not implementing)",
+    "visual": "used only for UI/UX perception",
+    "frustration": "used when continuing despite failure"
+}
+
 TRAITS_DICTIONARY = {
     "analytical":  0.0,
     "structure":   0.0,
