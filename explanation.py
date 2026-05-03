@@ -1,4 +1,17 @@
-def explain(user, track, probs, confidence_info, TRACK_PROFILES):
+def normalize_for_display(scores):
+    # 1) remove negatives
+    clipped = {k: max(0, v) for k, v in scores.items()}
+
+    # 2) handle edge case (all zero)
+    total = sum(clipped.values())
+    if total == 0:
+        return {k: 0 for k in scores}
+
+    # 3) normalize
+    return {k: v / total for k, v in clipped.items()}
+
+
+def explain(user, track, scores, confidence_info, TRACK_PROFILES):
     trait_text = {
         "analytical":  "تفكير تحليلي قوي",
         "structure":   "أسلوب منظم ومنهجي",
@@ -84,22 +97,19 @@ def explain(user, track, probs, confidence_info, TRACK_PROFILES):
             + " و".join(missing_text) + "."
         )
 
-    # --- development (based on importance not just low value) ---
-    weak = ranked[-2:]
-    weak_text = [trait_text[t] for t in weak]
+   
 
-    explanation.append(
-        f"لو حبيت تطور نفسك أكتر في تراك {second}، ركز على "
-        + " و".join(weak_text) + "."
-    )
+    # --score display ---
+    percent = normalize_for_display(scores)
+    sorted_percent = sorted(percent.items(), key=lambda x: x[1], reverse=True)
 
-    # --- probabilities display ---
-    sorted_probs = sorted(probs.items(), key=lambda x: x[1], reverse=True)
-    probs_text = " | ".join([f"{k}: {round(v*100)}%" for k, v in sorted_probs])
+    score_text = " | ".join([
+        f"{k}: {round(v*100)}%" for k, v in sorted_percent
+    ])
 
-    explanation.append("نسبة التوافق: " + probs_text)
+    explanation.append("نسبة التوافق (حسب الأداء): " + score_text)
 
-    # --- closing ---
+        # --- closing ---
     explanation.append(tone["closing"])
 
     return explanation

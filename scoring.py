@@ -80,14 +80,6 @@ def compute_interactions(user, track_data):
 # 5) Final Track Scoring
 # ----------------------------
 
-def normalize_scores(raw_scores):
-    exp_scores = {k: math.exp(v) for k, v in raw_scores.items()}
-    total = sum(exp_scores.values())
-
-    return {
-        k: round(v / total, 4)
-        for k, v in exp_scores.items()
-    }
 
 #------------------------------
 def score_tracks(user):
@@ -100,8 +92,5 @@ def score_tracks(user):
 
         raw_scores[track] = base - penalty + bonus
 
-    # Normalize so scores sum to 1 (comparable, stable)
-    normalized_scores = normalize_scores(raw_scores)
-
-    return normalized_scores
+    return raw_scores
 
