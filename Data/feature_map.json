@@ -109,27 +109,12 @@
       "structure": -0.1
     }
   },
+ 
   "7": {
-    "A": {
-      "trial": 0.3,
-      "frustration": 0.25,
-      "ambiguity": 0.1
-    },
-    "B": {
-      "analytical": 0.35,
-      "structure": 0.2,
-      "trial": -0.05
-    },
-    "C": {
-      "analytical": 0.2,
-      "pattern": 0.25,
-      "structure": 0.1
-    },
-    "D": {
-      "ideation": 0.3,
-      "pattern": 0.15,
-      "ambiguity": 0.1
-    }
+    "A": { "trial": 0.35, "frustration": 0.20, "execution": 0.10 },
+    "B": { "analytical": 0.35, "structure": 0.25 },
+    "C": { "pattern": 0.30, "analytical": 0.20, "structure": 0.10 },
+    "D": { "pattern": 0.35, "ambiguity": 0.20, "trial": 0.05 }
   },
   "8": {
     "A": {
@@ -284,5 +269,236 @@
       "execution": -0.15,
       "structure": -0.15
     }
-  }
+  }, 
+
+  "16": {
+    "A": {
+      "precision": 0.4,
+      "analytical": 0.15,
+      "execution": -0.15
+    },
+    "B": {
+      "execution": 0.35,
+      "trial": 0.15,
+      "precision": -0.1
+    },
+    "C": {
+      "analytical": 0.3,
+      "structure": 0.2,
+      "ambiguity": 0.1
+    },
+    "D": {
+      "execution": 0.3,
+      "structure": 0.15,
+      "precision": -0.1
+    }
+  },
+
+  "17": {
+    "A": {
+      "pattern": 0.4,
+      "analytical": 0.2,
+      "ideation": 0.05
+    },
+    "B": {
+      "precision": 0.4,
+      "analytical": 0.15,
+      "pattern": 0.1
+    },
+    "C": {
+      "ideation": 0.35,
+      "pattern": 0.15,
+      "analytical": -0.05
+    },
+    "D": {
+      "ideation": 0.35,
+      "analytical": 0.15,
+      "pattern": 0.05
+    }
+  },
+
+  "18": {
+    "A": {
+      "structure": 0.4,
+      "analytical": 0.15,
+      "ambiguity": -0.15
+    },
+    "B": {
+      "ambiguity": 0.35,
+      "structure": -0.2,
+      "execution": -0.05
+    },
+    "C": {
+      "execution": 0.3,
+      "structure": 0.2,
+      "trial": 0.1
+    },
+    "D": {
+      "trial": 0.35,
+      "ambiguity": 0.2,
+      "structure": -0.1
+    }
+  },
+
+  "19": {
+    "A": {
+      "analytical": 0.3,
+      "structure": 0.2,
+      "ambiguity": -0.15
+    },
+    "B": {
+      "pattern": 0.3,
+      "analytical": 0.15,
+      "ambiguity": 0.1
+    },
+    "C": {
+      "execution": 0.3,
+      "ambiguity": 0.2,
+      "analytical": -0.1
+    },
+    "D": {
+      "ambiguity": 0.3,
+      "frustration": -0.1,
+      "execution": -0.1
+    }
+  },
+
+  "20": {
+    "A": {
+      "structure": 0.4,
+      "precision": 0.2,
+      "trial": -0.1
+    },
+    "B": {
+      "trial": 0.3,
+      "ideation": 0.2,
+      "structure": -0.1
+    },
+    "C": {
+      "analytical": 0.35,
+      "pattern": 0.2,
+      "execution": -0.05
+    },
+    "D": {
+      "trial": 0.35,
+      "execution": 0.2,
+      "structure": -0.1
+    }
+  },
+
+  "21": {
+    "A": {
+      "ideation": 0.4,
+      "trial": 0.15,
+      "structure": -0.1
+    },
+    "B": {
+      "execution": 0.35,
+      "structure": 0.15,
+      "ideation": -0.1
+    },
+    "C": {
+      "pattern": 0.35,
+      "structure": 0.2,
+      "trial": -0.1
+    },
+    "D": {
+      "visual": 0.4,
+      "ideation": 0.2,
+      "analytical": -0.05
+    }
+  },
+
+  "22": {
+    "A": {
+      "structure": 0.4,
+      "analytical": 0.15,
+      "ambiguity": -0.1
+    },
+    "B": {
+      "execution": 0.3,
+      "analytical": 0.2,
+      "structure": 0.1
+    },
+    "C": {
+      "ambiguity": 0.3,
+      "trial": 0.15,
+      "structure": -0.1
+    },
+    "D": {
+      "ambiguity": 0.35,
+      "ideation": 0.1,
+      "structure": -0.15
+    }
+  },
+
+  "23": {
+    "A": {
+      "execution": 0.35,
+      "frustration": 0.2,
+      "analytical": 0.05
+    },
+    "B": {
+      "ambiguity": 0.3,
+      "execution": 0.2,
+      "structure": -0.05
+    },
+    "C": {
+      "ambiguity": 0.35,
+      "frustration": -0.2,
+      "execution": -0.1
+    },
+    "D": {
+      "structure": 0.3,
+      "analytical": 0.2,
+      "execution": 0.05
+    }
+  },
+
+  "24": {
+    "A": {
+      "execution": 0.35,
+      "trial": 0.2,
+      "structure": -0.1
+    },
+    "B": {
+      "ideation": 0.35,
+      "pattern": 0.15,
+      "execution": -0.05
+    },
+    "C": {
+      "structure": 0.4,
+      "analytical": 0.15,
+      "ambiguity": -0.1
+    },
+    "D": {
+      "pattern": 0.35,
+      "analytical": 0.2,
+      "trial": 0.05
+    }
+  },
+
+  "25": {
+    "A": {
+      "precision": 0.4,
+      "structure": 0.2,
+      "trial": -0.15
+    },
+    "B": {
+      "trial": 0.35,
+      "ambiguity": 0.2,
+      "precision": -0.1
+    },
+    "C": {
+      "analytical": 0.35,
+      "structure": 0.2,
+      "execution": -0.05
+    },
+    "D": {
+      "ambiguity": 0.3,
+      "frustration": -0.15,
+      "execution": -0.1
+    }
+  
+}
 }
