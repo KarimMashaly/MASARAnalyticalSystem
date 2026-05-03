@@ -1,5 +1,5 @@
 import json
-
+import math
 
 import os
 
@@ -20,17 +20,11 @@ TRACK_PROFILES = TRACK_DATA["tracks"]
 # 1) Similarity
 # ----------------------------
 def range_similarity(x, min_val, max_val):
-    if min_val <= x <= max_val:
-        return 1.0
+    center = (min_val + max_val) / 2
+    distance = abs(x - center)
+    range_size = (max_val - min_val) / 2
 
-    range_size = max_val - min_val + 1e-6
-
-    if x < min_val:
-        distance = (min_val - x) / range_size
-    else:
-        distance = (x - max_val) / range_size
-
-    return max(0, 1 - distance)
+    return max(0, 1 - (distance / range_size))
 
 
 # ----------------------------
@@ -91,6 +85,17 @@ def compute_interactions(user, track_data):
 # ----------------------------
 # 5) Final Track Scoring
 # ----------------------------
+
+def normalize_scores(raw_scores):
+    exp_scores = {k: math.exp(v) for k, v in raw_scores.items()}
+    total = sum(exp_scores.values())
+
+    return {
+        k: round(v / total, 4)
+        for k, v in exp_scores.items()
+    }
+
+#------------------------------
 def score_tracks(user):
     raw_scores = {}
 
@@ -102,9 +107,7 @@ def score_tracks(user):
         raw_scores[track] = base - penalty + bonus
 
     # Normalize so scores sum to 1 (comparable, stable)
-    total = sum(raw_scores.values()) + 1e-6
-    normalized_scores = {
-        k: round(v / total, 4) for k, v in raw_scores.items()
-    }
+    normalized_scores = normalize_scores(raw_scores)
 
     return normalized_scores
+

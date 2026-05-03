@@ -1,4 +1,4 @@
-def explain(user, track, scores, confidence_info):
+def explain(user, track, probs, confidence_info, TRACK_PROFILES):
     trait_text = {
         "analytical":  "تفكير تحليلي قوي",
         "structure":   "أسلوب منظم ومنهجي",
@@ -9,67 +9,97 @@ def explain(user, track, scores, confidence_info):
         "ideation":    "قدرة على توليد أفكار إبداعية",
         "precision":   "اهتمام بالتفاصيل والدقة",
         "visual":      "تفكير بصري وحساسية لتجربة المستخدم",
-        "pattern":     "قدرة على اكتشاف الأنماط والعلاقات الخفية"
+        "pattern":     "قدرة على اكتشاف الأنماط"
     }
 
     track_key_traits = {
         "AI":       ["analytical", "pattern", "ambiguity", "frustration"],
         "Backend":  ["analytical", "structure", "precision", "execution"],
-        "Frontend": ["execution", "visual", "ideation", "trial"]
+        "Frontend": ["execution", "visual", "ideation", "trial"],
+        "Mobile":   ["execution", "visual", "ideation", "structure"],
+        "Testing":  ["precision", "analytical", "pattern", "structure"]
     }
 
-    track_description = {
-        "AI": "تراك الـ AI مناسب للناس اللي بتحب تفهم ليه الأشياء بتحصل، مش بس إزاي. محتاج تفكير تحليلي عميق، ارتياح مع بيانات ناقصة، وفضول مستمر.",
-        "Backend": "تراك الـ Backend مناسب للناس اللي بتحب تبني أنظمة محكمة وقابلة للاعتماد. محتاج دقة، تنظيم، وتفكير منهجي في كيفية بناء الأشياء صح.",
-        "Frontend": "تراك الـ Frontend مناسب للناس اللي بتحب تربط بين الفكرة والتجربة الإنسانية. محتاج تنفيذ سريع، تفكير بصري، وقدرة على التكيف مع التغيير."
+    tone_templates = {
+        "high": {
+            "intro": "واضح جدًا إن {track} هو الأنسب ليك.",
+            "reason": "أسلوبك متوافق بشكل قوي مع متطلبات التراك ده.",
+            "closing": "الاختيار ده بيعكس شخصيتك بشكل دقيق."
+        },
+        "medium": {
+            "intro": "أقرب اختيار ليك هو {track}.",
+            "reason": "في توافق واضح مع التراك ده، مع وجود بعض التقاطعات.",
+            "closing": "ممكن تلاقي نفسك بين أكتر من تراك، لكن ده الأقرب حاليًا."
+        },
+        "low": {
+            "intro": "في أكتر من تراك قريبين من أسلوبك، لكن {track} هو الأقرب.",
+            "reason": "نتيجتك بتوضح إنك عندك مزيج من المهارات أو لسه في مرحلة استكشاف.",
+            "closing": "ممكن تحتاج تجربة أكتر عشان تحدد الاتجاه الأنسب ليك."
+        }
     }
 
     explanation = []
 
-    # 1) Top strengths
-    sorted_traits = sorted(user.items(), key=lambda x: x[1], reverse=True)
-    strong = [t for t, v in sorted_traits[:3]]
-    strong_text = [trait_text[t] for t in strong]
-    explanation.append("من أسلوبك في التفكير، واضح إنك بتتميز بـ " + " و".join(strong_text) + ".")
+    # --- tone ---
+    label = confidence_info["label"]
+    tone = tone_templates[label]
 
-    # 2) Track match reasoning
-    relevant = track_key_traits[track]
-    matched = [trait_text[t] for t in relevant if user[t] >= 0.58]
+    # --- get weights ---
+    weights = {
+        t: w for t, (_, _, w) in TRACK_PROFILES[track]["traits"].items()
+    }
 
-    if matched:
+    # --- sort relevant traits by importance ---
+    relevant_traits = track_key_traits[track]
+
+    ranked = sorted(
+        relevant_traits,
+        key=lambda t: user[t] * weights.get(t, 0),
+        reverse=True
+    )
+
+    # --- strengths ---
+    strong = [trait_text[t] for t in ranked[:2]]
+    explanation.append("أقوى حاجة بتميزك هي " + " و".join(strong) + ".")
+
+    # --- tone intro ---
+    explanation.append(tone["intro"].format(track=track))
+    explanation.append(tone["reason"])
+
+    # --- WHY NOT second track ---
+    second = confidence_info["second_track"]
+
+    if second in track_key_traits:
+        second_traits = track_key_traits[second]
+
+        missing = sorted(
+            second_traits,
+            key=lambda t: user[t]
+        )[:2]
+
+        missing_text = [trait_text[t] for t in missing]
+
         explanation.append(
-            f"الـ {track} ده مناسب ليك لأنك بتمتلك " + " و".join(matched) + "."
-        )
-    else:
-        explanation.append(
-            f"الـ {track} ده أقرب track لأسلوبك العام، وإن كان في مجال تطوير كمان."
+            f"مقارنةً بـ {second}، التراك ده أقرب ليك لأنك محتاج تطور "
+            + " و".join(missing_text) + "."
         )
 
-    # 3) Track description
-    explanation.append(track_description[track])
+    # --- development (based on importance not just low value) ---
+    weak = ranked[-2:]
+    weak_text = [trait_text[t] for t in weak]
 
-    # 4) Development areas
-    weak = [t for t, v in sorted_traits[-3:] if t in track_key_traits[track]]
-    if weak:
-        weak_text = [trait_text[t] for t in weak]
-        explanation.append("للنمو في الـ track ده، هيفيدك تطور " + " و".join(weak_text) + ".")
+    explanation.append(
+        f"لو حبيت تطور نفسك أكتر في تراك {second}، ركز على "
+        + " و".join(weak_text) + "."
+    )
 
-    # 5) Confidence-aware closing
-    conf_label = confidence_info["label"]
-    second     = confidence_info["second_track"]
+    # --- probabilities display ---
+    sorted_probs = sorted(probs.items(), key=lambda x: x[1], reverse=True)
+    probs_text = " | ".join([f"{k}: {round(v*100)}%" for k, v in sorted_probs])
 
-    if conf_label == "low":
-        explanation.append(
-            f"النتيجة دي قريبة جدًا من تراك الـ {second} كمان، "
-            "ده ممكن يعني إنك بتتميز بمزيج من المهارتين أو لسه بتكتشف."
-        )
-    elif conf_label == "medium":
-        explanation.append(
-            f"النتيجة بتميل واضح لـ {track}، مع وجود تقاطع مع الـ {second}."
-        )
-    else:
-        explanation.append(
-            f"النتيجة واضحة وقوية، وده بيعكس أسلوبك بشكل دقيق."
-        )
+    explanation.append("نسبة التوافق: " + probs_text)
+
+    # --- closing ---
+    explanation.append(tone["closing"])
 
     return explanation
