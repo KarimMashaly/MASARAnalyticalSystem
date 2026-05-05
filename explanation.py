@@ -1,4 +1,17 @@
-def explain(user, track, probs, confidence_info, TRACK_PROFILES):
+def normalize_for_display(scores):
+    # 1) remove negatives
+    clipped = {k: max(0, v) for k, v in scores.items()}
+
+    # 2) handle edge case (all zero)
+    total = sum(clipped.values())
+    if total == 0:
+        return {k: 0 for k in scores}
+
+    # 3) normalize
+    return {k: v / total for k, v in clipped.items()}
+
+
+def explain(user_traits, track, scores, confidence_info, TRACK_PROFILES):
     trait_text = {
         "analytical":  "تفكير تحليلي قوي",
         "structure":   "أسلوب منظم ومنهجي",
@@ -16,7 +29,7 @@ def explain(user, track, probs, confidence_info, TRACK_PROFILES):
         "AI":       ["analytical", "pattern", "ambiguity", "frustration"],
         "Backend":  ["analytical", "structure", "precision", "execution"],
         "Frontend": ["execution", "visual", "ideation", "trial"],
-        "Mobile":   ["execution", "visual", "ideation", "structure"],
+        "Mobile":   ["execution", "visual", "trial", "structure"],
         "Testing":  ["precision", "analytical", "pattern", "structure"]
     }
 
@@ -54,7 +67,7 @@ def explain(user, track, probs, confidence_info, TRACK_PROFILES):
 
     ranked = sorted(
         relevant_traits,
-        key=lambda t: user[t] * weights.get(t, 0),
+        key=lambda t: user_traits[t] * weights.get(t, 0),
         reverse=True
     )
 
@@ -69,37 +82,42 @@ def explain(user, track, probs, confidence_info, TRACK_PROFILES):
     # --- WHY NOT second track ---
     second = confidence_info["second_track"]
 
-    if second in track_key_traits:
-        second_traits = track_key_traits[second]
+    weights_second = {
+t: w for t, (_, _, w) in TRACK_PROFILES[second]["traits"].items()
+}
 
-        missing = sorted(
-            second_traits,
-            key=lambda t: user[t]
-        )[:2]
+    missing = sorted(
+        weights_second,
+        key=lambda t: (1 - user_traits[t]) * weights_second.get(t, 0),
+        reverse=True
+    )
 
-        missing_text = [trait_text[t] for t in missing]
+    # فلترة: ناخد بس المهم فعلًا
+    missing = [
+        t for t in missing
+        if weights_second.get(t, 0) > 0.1 and user_traits[t] < 0.6
+][:2]
 
-        explanation.append(
+    missing_text = [trait_text[t] for t in missing]
+
+    explanation.append(
             f"مقارنةً بـ {second}، التراك ده أقرب ليك لأنك محتاج تطور "
             + " و".join(missing_text) + "."
         )
 
-    # --- development (based on importance not just low value) ---
-    weak = ranked[-2:]
-    weak_text = [trait_text[t] for t in weak]
+   
 
-    explanation.append(
-        f"لو حبيت تطور نفسك أكتر في تراك {second}، ركز على "
-        + " و".join(weak_text) + "."
-    )
+    # --score display ---
+    percent = normalize_for_display(scores)
+    sorted_percent = sorted(percent.items(), key=lambda x: x[1], reverse=True)
 
-    # --- probabilities display ---
-    sorted_probs = sorted(probs.items(), key=lambda x: x[1], reverse=True)
-    probs_text = " | ".join([f"{k}: {round(v*100)}%" for k, v in sorted_probs])
+    score_text = " | ".join([
+        f"{k}: {round(v*100)}%" for k, v in sorted_percent
+    ])
 
-    explanation.append("نسبة التوافق: " + probs_text)
+    explanation.append("نسبة التوافق (حسب الأداء): " + score_text)
 
-    # --- closing ---
+        # --- closing ---
     explanation.append(tone["closing"])
 
     return explanation

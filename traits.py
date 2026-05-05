@@ -53,6 +53,34 @@ TRAIT_RANGES = {
 }
 
 
+def compute_trial(execution, ambiguity, analytical, precision, structure):
+    """
+    All inputs expected in range [0, 1]
+    Returns trial in range (0, 1)
+    """
+
+    # --- 1) Interaction core ---
+    core = execution * ambiguity
+
+    # --- 2) Conditional blocks (only if they hinder execution) ---
+    analytical_block = max(0.0, analytical - execution)
+    precision_block  = max(0.0, precision  - execution)
+
+    # --- 3) Logit (z) ---
+    z = (
+        -1.2
+        + 3.0 * core
+        - 0.8 * structure
+        - 0.6 * analytical_block
+        - 0.5 * precision_block
+    )
+
+    # --- 4) Sigmoid → (0, 1) ---
+    trial = 1.0 / (1.0 + math.exp(-z))
+
+    return trial
+
+
 def build_traits(answers, feature_map):
     raw = TRAITS_DICTIONARY.copy()
 
@@ -60,8 +88,11 @@ def build_traits(answers, feature_map):
         effects = feature_map[q_id][ans]
         for t, v in effects.items():
             raw[t] += v
-
+    
+    raw["trial"] = compute_trial(raw["execution"], raw["ambiguity"], raw["analytical"], raw["precision"], raw["structure"])
+   
     return raw
+
 
 
 def normalize_traits(raw):
@@ -71,12 +102,18 @@ def normalize_traits(raw):
     """
     normalized = {}
     for t, v in raw.items():
+
+        # --- skip trial (already normalized) ---
+        if t == "trial":
+            normalized[t] = round(v, 3)
+            continue
+
         min_v, max_v = TRAIT_RANGES[t]
 
         norm = (v - min_v) / (max_v - min_v)
 
         # clamp عشان safety
         norm = max(0.0, min(1.0, norm))
-
         normalized[t] = round(norm, 3)
+
     return normalized
