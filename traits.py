@@ -53,6 +53,8 @@ TRAIT_RANGES = {
 }
 
 
+import math
+
 def compute_trial(execution, ambiguity, analytical, precision, structure):
     """
     All inputs expected in range [0, 1]
@@ -62,24 +64,23 @@ def compute_trial(execution, ambiguity, analytical, precision, structure):
     # --- 1) Interaction core ---
     core = execution * ambiguity
 
-    # --- 2) Conditional blocks (only if they hinder execution) ---
-    analytical_block = max(0.0, analytical - execution)
-    precision_block  = max(0.0, precision  - execution)
+    # --- 2) Conditional blocks ---
+    analytical_block = max(0.0, analytical - (execution + 0.2))
+    precision_block  = max(0.0, precision - execution)
 
     # --- 3) Logit (z) ---
     z = (
-        -1.2
-        + 3.0 * core
-        - 0.8 * structure
-        - 0.6 * analytical_block
-        - 0.5 * precision_block
+        -1.8              # ↓ lower baseline
+        + 2.2 * core      # ↓ reduced core influence
+        - 1.0 * structure # ↑ stronger penalty
+        - 0.8 * analytical_block
+        - 0.7 * precision_block
     )
 
     # --- 4) Sigmoid → (0, 1) ---
     trial = 1.0 / (1.0 + math.exp(-z))
 
     return trial
-
 
 def build_traits(answers, feature_map):
     raw = TRAITS_DICTIONARY.copy()
