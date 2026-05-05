@@ -1,14 +1,20 @@
-def normalize_for_display(scores):
-    # 1) remove negatives
-    clipped = {k: max(0, v) for k, v in scores.items()}
+def scores_to_percent(scores: dict) -> dict:
+    """
+    Convert shift+scale scores → percentage share of the total.
 
-    # 2) handle edge case (all zero)
-    total = sum(clipped.values())
+    Why not use scores directly?
+      - scores ∈ [0, 1] but don't sum to 1 → not intuitive for display.
+      - Dividing by total gives "share of fit" — sums to 100%, readable.
+      - No clipping needed: shift+scale guarantees all values >= 0.
+
+    Example:
+      scores  = { "AI": 1.0, "Backend": 0.6, "Frontend": 0.2 }
+      percent = { "AI": 56%, "Backend": 33%, "Frontend": 11% }
+    """
+    total = sum(scores.values())
     if total == 0:
-        return {k: 0 for k in scores}
-
-    # 3) normalize
-    return {k: v / total for k, v in clipped.items()}
+        return {k: 0.0 for k in scores}
+    return {k: round(v / total, 4) for k, v in scores.items()}
 
 
 def explain(user_traits, track, scores, confidence_info, TRACK_PROFILES):
@@ -35,89 +41,74 @@ def explain(user_traits, track, scores, confidence_info, TRACK_PROFILES):
 
     tone_templates = {
         "high": {
-            "intro": "واضح جدًا إن {track} هو الأنسب ليك.",
-            "reason": "أسلوبك متوافق بشكل قوي مع متطلبات التراك ده.",
+            "intro":   "واضح جدًا إن {track} هو الأنسب ليك.",
+            "reason":  "أسلوبك متوافق بشكل قوي مع متطلبات التراك ده.",
             "closing": "الاختيار ده بيعكس شخصيتك بشكل دقيق."
         },
         "medium": {
-            "intro": "أقرب اختيار ليك هو {track}.",
-            "reason": "في توافق واضح مع التراك ده، مع وجود بعض التقاطعات.",
+            "intro":   "أقرب اختيار ليك هو {track}.",
+            "reason":  "في توافق واضح مع التراك ده، مع وجود بعض التقاطعات.",
             "closing": "ممكن تلاقي نفسك بين أكتر من تراك، لكن ده الأقرب حاليًا."
         },
         "low": {
-            "intro": "في أكتر من تراك قريبين من أسلوبك، لكن {track} هو الأقرب.",
-            "reason": "نتيجتك بتوضح إنك عندك مزيج من المهارات أو لسه في مرحلة استكشاف.",
+            "intro":   "في أكتر من تراك قريبين من أسلوبك، لكن {track} هو الأقرب.",
+            "reason":  "نتيجتك بتوضح إنك عندك مزيج من المهارات أو لسه في مرحلة استكشاف.",
             "closing": "ممكن تحتاج تجربة أكتر عشان تحدد الاتجاه الأنسب ليك."
         }
     }
 
     explanation = []
+    label       = confidence_info["label"]
+    tone        = tone_templates[label]
 
-    # --- tone ---
-    label = confidence_info["label"]
-    tone = tone_templates[label]
-
-    # --- get weights ---
+    # --- strengths: rank key traits by (user value × track weight) ---
     weights = {
         t: w for t, (_, _, w) in TRACK_PROFILES[track]["traits"].items()
     }
-
-    # --- sort relevant traits by importance ---
-    relevant_traits = track_key_traits[track]
-
+    relevant_traits = track_key_traits.get(track, [])
     ranked = sorted(
         relevant_traits,
-        key=lambda t: user_traits[t] * weights.get(t, 0),
+        key=lambda t: user_traits[t] * weights.get(t, 0.0),
         reverse=True
     )
-
-    # --- strengths ---
     strong = [trait_text[t] for t in ranked[:2]]
     explanation.append("أقوى حاجة بتميزك هي " + " و".join(strong) + ".")
 
-    # --- tone intro ---
+    # --- tone ---
     explanation.append(tone["intro"].format(track=track))
     explanation.append(tone["reason"])
 
-    # --- WHY NOT second track ---
-    second = confidence_info["second_track"]
-
-    weights_second = {
-t: w for t, (_, _, w) in TRACK_PROFILES[second]["traits"].items()
-}
-
+    # --- why not second track ---
+    second          = confidence_info["second_track"]
+    weights_second  = {
+        t: w for t, (_, _, w) in TRACK_PROFILES[second]["traits"].items()
+    }
     missing = sorted(
         weights_second,
-        key=lambda t: (1 - user_traits[t]) * weights_second.get(t, 0),
+        key=lambda t: (1.0 - user_traits[t]) * weights_second.get(t, 0.0),
         reverse=True
     )
-
-    # فلترة: ناخد بس المهم فعلًا
     missing = [
         t for t in missing
-        if weights_second.get(t, 0) > 0.1 and user_traits[t] < 0.6
-][:2]
+        if weights_second.get(t, 0.0) > 0.1 and user_traits[t] < 0.6
+    ][:2]
 
-    missing_text = [trait_text[t] for t in missing]
-
-    explanation.append(
+    if missing:
+        missing_text = [trait_text[t] for t in missing]
+        explanation.append(
             f"مقارنةً بـ {second}، التراك ده أقرب ليك لأنك محتاج تطور "
             + " و".join(missing_text) + "."
         )
 
-   
-
-    # --score display ---
-    percent = normalize_for_display(scores)
+    # --- score display (percentage share) ---
+    percent        = scores_to_percent(scores)
     sorted_percent = sorted(percent.items(), key=lambda x: x[1], reverse=True)
+    score_text     = " | ".join(
+        f"{k}: {round(v * 100)}%" for k, v in sorted_percent
+    )
+    explanation.append("نسبة التوافق: " + score_text)
 
-    score_text = " | ".join([
-        f"{k}: {round(v*100)}%" for k, v in sorted_percent
-    ])
-
-    explanation.append("نسبة التوافق (حسب الأداء): " + score_text)
-
-        # --- closing ---
+    # --- closing ---
     explanation.append(tone["closing"])
 
     return explanation
