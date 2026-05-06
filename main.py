@@ -35,44 +35,8 @@ def ask_questions(questions= read_qeustions()):
     return answers
 
 
-answers_shahd = """
-B
-B 
-D
-B
-A
-A
-C
-A
-C
-C
-B
-A
-A
-A
-C
-C
-A
-C
-D
-B
-B
-C
-A
-A
-A
-D""".replace("\n", "").replace(" ", "")
-dict_answers = {}
-for id ,  v in enumerate(answers_shahd, 1):
-     dict_answers[str(id)] = v
-
-print(dict_answers)
-
-
-
 if __name__ == "__main__":
-    answers =  dict_answers  #      ask_questions()         #{"1":"A","2":"A","3":"C","4":"A","5":"A","6":"B","7":"C","8":"A","9":"C","10":"A","11":"A","12":"B","13":"A","14":"C","15":"A","16":"A","17":"B","18":"C","19":"C","20":"A","21":"B","22":"B","23":"C","24":"A","25":"C","26":"C"}
- #
+    answers =  ask_questions()
     result = run_pipeline(answers)
 
     print("\n=== RESULT ===")
