@@ -15,7 +15,7 @@
     "visual":      [0.20, 0.50, 0.03]
   },
   "penalty_rules": [
-    { "trait": "analytical", "threshold": 0.65, "factor": 2 },
+    { "trait": "analytical", "threshold": 0.75, "factor": 2 },
     { "trait": "pattern",    "threshold": 0.60, "factor": 2},
     { "trait": "ambiguity",  "threshold": 0.55, "factor": 1.2 }
   ]
@@ -43,9 +43,9 @@
     "visual":      [0.20, 0.45, 0.01]
   },
   "penalty_rules": [
-    { "trait": "execution", "threshold": 0.75, "factor": 2.3},
+    { "trait": "execution", "threshold": 0.77, "factor": 2.3},
     { "trait": "structure", "threshold": 0.65, "factor": 2.1},
-    { "trait": "analytical", "threshold": 0.55, "factor": 1.8}
+    { "trait": "analytical", "threshold": 0.60, "factor": 1.8}
   ]
 ,
       "interaction_rules": [
