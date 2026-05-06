@@ -84,7 +84,7 @@ def compute_interactions(user, track_data):
 # ----------------------------
 # 5) Normalize → [0, 1]
 # ----------------------------
-def _normalize_scores(raw_scores: dict) -> dict:
+def normalize_scores(raw_scores: dict) -> dict:
     """
     Shift + Scale:
       - Shift  : subtract min  → no negatives, weakest track = 0.0
@@ -121,4 +121,4 @@ def score_tracks(user: dict) -> dict:
 
         raw_scores[track] = base - penalty + bonus
 
-    return _normalize_scores(raw_scores)
+    return raw_scores
