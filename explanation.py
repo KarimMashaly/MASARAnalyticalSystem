@@ -59,7 +59,7 @@ def explain(user_traits, track, scores, confidence_info, TRACK_PROFILES):
 
     explanation = []
     label       = confidence_info["label"]
-    tone        = tone_templates[label]
+    tone        = tone_templates["medium"]
 
     # --- strengths: rank key traits by (user value × track weight) ---
     weights = {
