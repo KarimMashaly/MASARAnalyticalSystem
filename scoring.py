@@ -124,6 +124,16 @@ def score_tracks(user: dict) -> dict:
         penalty = compute_penalty(user, data)
         bonus   = compute_interactions(user, data)
 
-        raw_scores[track] = base - penalty + bonus
+        score = base - penalty + bonus
+        if track == "Testing" and user["ambiguity"] > 0.2:
+            gap = user["ambiguity"] - 0.2
+            score -= gap * 1.4
+        # AI penalty for very high precision
+        if track == "AI" and user["precision"] > 0.7:
+            gap = user["precision"] - 0.7
+            score -= gap * 1.2
+            
+        raw_scores[track] = score 
+
 
     return raw_scores

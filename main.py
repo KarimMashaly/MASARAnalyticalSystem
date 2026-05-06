@@ -36,7 +36,7 @@ def ask_questions(questions= read_qeustions()):
 
 
 if __name__ == "__main__":
-    answers = ask_questions()
+    answers =  ask_questions()
     result = run_pipeline(answers)
 
     print("\n=== RESULT ===")
@@ -48,5 +48,4 @@ if __name__ == "__main__":
     arabic_print("\nExplanation:")
     for line in result["explanation"]:
         arabic_print("- " + line)
-
 
