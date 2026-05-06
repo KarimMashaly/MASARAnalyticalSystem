@@ -60,9 +60,9 @@ def compute_confidence(scores: dict) -> dict:
     confidence = round(float(np.clip(confidence, 0.0, 1.0)), 4)
 
     # --- label ---
-    if confidence >= 0.60:
+    if confidence >= 0.70:
         label = "high"
-    elif confidence >= 0.35:
+    elif confidence >= 0.40:
         label = "medium"
     else:
         label = "low"
