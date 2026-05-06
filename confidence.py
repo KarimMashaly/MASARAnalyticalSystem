@@ -33,15 +33,15 @@ def compute_confidence(scores: dict) -> dict:
     # 30% فرق = high confidence → نحتاج gap=0.30 يعطي score قريب من 0.85
     # gap مرفوع بـ factor عشان 0.30 → ~0.85
     gap      = scaled_top - scaled_second
-    gap_norm = min(1.0, gap * 2.8)          # 0.30 × 2.8 = 0.84 ✓
+    gap_norm = min(1.0, gap * 4)          # 0.30 × 2.8 = 0.84 ✓
 
     # ── Signal 2: spread ──────────────────────────────────────
     spread      = float(np.std(scaled))
-    spread_norm = min(1.0, spread / 0.5)
+    spread_norm = min(1.0, spread / 0.3)
 
     # ── Signal 3: ratio_norm ──────────────────────────────────
     ratio      = scaled_top / (scaled_second + 1e-9)
-    ratio_norm = min(1.0, (ratio - 1.0) / 2.0)
+    ratio_norm = min(1.0, (ratio - 1.0) / 1.20)
 
     # ── Combine ───────────────────────────────────────────────
     confidence = (
@@ -52,7 +52,7 @@ def compute_confidence(scores: dict) -> dict:
     confidence = round(float(np.clip(confidence, 0.0, 1.0)), 4)
 
     # ── Label — 0.85 / 0.60 ───────────────────────────────────
-    if confidence >= 0.85:
+    if confidence >= 0.75:
         label = "high"
     elif confidence >= 0.60:
         label = "medium"
