@@ -59,7 +59,7 @@ def explain(user_traits, track, scores, confidence_info, TRACK_PROFILES):
 
     explanation = []
     label       = confidence_info["label"]
-    tone        = tone_templates["medium"]
+    tone        = tone_templates[label]
 
     # --- strengths: rank key traits by (user value × track weight) ---
     weights = {
@@ -100,7 +100,7 @@ def explain(user_traits, track, scores, confidence_info, TRACK_PROFILES):
             + " و".join(missing_text) + "."
         )
 
-    # --- score display (percentage share) ---
+    # # --- score display (percentage share) ---
     # percent        = scores_to_percent(scores)
     # sorted_percent = sorted(percent.items(), key=lambda x: x[1], reverse=True)
     # score_text     = " | ".join(
