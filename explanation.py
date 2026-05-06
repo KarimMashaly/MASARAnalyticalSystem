@@ -90,7 +90,7 @@ def explain(user_traits, track, scores, confidence_info, TRACK_PROFILES):
     )
     missing = [
         t for t in missing
-        if weights_second.get(t, 0.0) > 0.1 and user_traits[t] < 0.6
+        if weights_second.get(t, 0.0) > 0.1 and user_traits[t] < 0.7
     ][:2]
 
     if missing:
@@ -101,12 +101,12 @@ def explain(user_traits, track, scores, confidence_info, TRACK_PROFILES):
         )
 
     # --- score display (percentage share) ---
-    percent        = scores_to_percent(scores)
-    sorted_percent = sorted(percent.items(), key=lambda x: x[1], reverse=True)
-    score_text     = " | ".join(
-        f"{k}: {round(v * 100)}%" for k, v in sorted_percent
-    )
-    explanation.append("نسبة التوافق: " + score_text)
+    # percent        = scores_to_percent(scores)
+    # sorted_percent = sorted(percent.items(), key=lambda x: x[1], reverse=True)
+    # score_text     = " | ".join(
+    #     f"{k}: {round(v * 100)}%" for k, v in sorted_percent
+    # )
+    # explanation.append("نسبة التوافق: " + score_text)
 
     # --- closing ---
     explanation.append(tone["closing"])
