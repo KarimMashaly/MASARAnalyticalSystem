@@ -94,7 +94,7 @@
       ]
     },
 
-    "Mobile": {
+    "Mobile Application": {
   "traits": {
     "execution":   [0.85, 0.95, 0.20],
     "trial":       [0.75, 0.85, 0.20],
@@ -122,7 +122,7 @@
       ]
     },
 
-    "Testing": {
+    "Software Testing": {
 
     "traits": {
     "precision":   [0.75, 0.95, 0.22],

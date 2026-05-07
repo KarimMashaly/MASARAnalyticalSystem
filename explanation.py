@@ -35,8 +35,8 @@ def explain(user_traits, track, scores, confidence_info, TRACK_PROFILES):
         "AI":       ["analytical", "pattern", "ambiguity", "frustration"],
         "Backend":  ["analytical", "structure", "precision", "execution"],
         "Frontend": ["execution", "visual", "ideation", "trial"],
-        "Mobile":   ["execution", "visual", "trial", "structure"],
-        "Testing":  ["precision", "analytical", "pattern", "structure"]
+        "Mobile Application":   ["execution", "visual", "trial", "structure"],
+        "Software Testing":  ["precision", "analytical", "pattern", "structure"]
     }
 
     tone_templates = {
